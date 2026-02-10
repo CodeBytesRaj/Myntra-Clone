@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Details</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a href="index.html">← Back</a>
+
+<div class="product-detail" id="detail"></div>
+
+<script>
+let p = JSON.parse(localStorage.getItem("selectedProduct"));
+
+document.getElementById("detail").innerHTML = `
+<img src="${p.img}">
+<h2>${p.name}</h2>
+<p>Price: ₹${p.price}</p>
+<button onclick="addToCart('${p.name}',${p.price})">Add to Bag</button>
+`;
+
+function addToCart(name, price){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let item = cart.find(i=>i.name===name);
+item ? item.qty++ : cart.push({name,price,qty:1});
+localStorage.setItem("cart",JSON.stringify(cart));
+alert("Added to cart");
+}
+</script>
+
+</body>
+</html>
