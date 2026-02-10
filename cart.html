@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Your Cart</h2>
+<a href="index.html">← Continue Shopping</a>
+
+<div id="cart"></div>
+<h3 id="total"></h3>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let box = document.getElementById("cart");
+let total = 0;
+
+cart.forEach((item,i)=>{
+total += item.price * item.qty;
+box.innerHTML += `
+<div class="cart-item">
+<h4>${item.name}</h4>
+<p>₹${item.price}</p>
+<p>
+<button onclick="updateQty(${i},-1)">-</button>
+${item.qty}
+<button onclick="updateQty(${i},1)">+</button>
+</p>
+<button onclick="removeItem(${i})">Remove</button>
+</div>
+`;
+});
+
+document.getElementById("total").innerText = "Total: ₹" + total;
+
+function updateQty(i,change){
+cart[i].qty += change;
+if(cart[i].qty <= 0) cart.splice(i,1);
+localStorage.setItem("cart",JSON.stringify(cart));
+location.reload();
+}
+
+function removeItem(i){
+cart.splice(i,1);
+localStorage.setItem("cart",JSON.stringify(cart));
+location.reload();
+}
+</script>
+
+</body>
+</html>
