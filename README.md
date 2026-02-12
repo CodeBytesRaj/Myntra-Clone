@@ -7,7 +7,7 @@ This project demonstrates modern frontend development concepts including UI desi
 
 ## 🚀 Live Demo
 
-🔗 https://codebytesraj.github.io/myntra-frontend-clone/
+🔗 https://codebytesraj.github.io/myntra-clone/
 
 ---
 
