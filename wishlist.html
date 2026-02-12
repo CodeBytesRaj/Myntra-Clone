@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wishlist</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h2>Your Wishlist ❤️</h2>
+
+<div class="actions">
+<a href="index.html">Home</a>
+<a href="cart.html">Cart</a>
+</div>
+</header>
+
+<section id="wishlist-container" class="product-grid"></section>
+
+<script>
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let container = document.getElementById("wishlist-container");
+
+if(wishlist.length === 0){
+container.innerHTML = "<h3>Your wishlist is empty.</h3>";
+}
+
+wishlist.forEach((item,index)=>{
+container.innerHTML += `
+<div class="product-card">
+<img src="${item.img}">
+<h4>${item.name}</h4>
+<p>₹${item.price}</p>
+<button onclick="moveToCart(${index})">Move to Cart</button>
+<button onclick="removeFromWishlist(${index})">Remove</button>
+</div>
+`;
+});
+
+function removeFromWishlist(index){
+wishlist.splice(index,1);
+localStorage.setItem("wishlist", JSON.stringify(wishlist));
+location.reload();
+}
+
+function moveToCart(index){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let item = wishlist[index];
+
+let existing = cart.find(p=>p.name === item.name);
+
+if(existing){
+existing.qty += 1;
+}else{
+cart.push({name:item.name, price:item.price, qty:1});
+}
+
+wishlist.splice(index,1);
+
+localStorage.setItem("cart", JSON.stringify(cart));
+localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+location.reload();
+}
+</script>
+
+</body>
+</html>
